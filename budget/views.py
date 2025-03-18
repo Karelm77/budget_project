@@ -76,7 +76,7 @@ def transaction_list(request):
         'total_income': total_income,
         'total_expense': total_expense,
         'balance': balance,
-        'period': period
+        'period': period,
     }
     return render(request, 'budget/transaction_list.html', context)
 

@@ -150,7 +150,7 @@
             </div>
         </div>
 
-        <!-- Původní hlavička s přihlašovacími odkazy -->
+        <!-- hlavička s přihlašovacími odkazy -->
         <div class="header d-flex justify-content-between align-items-center">
             <div>
                 {% if user.is_authenticated %}
@@ -169,13 +169,13 @@
         <hr>
         {% if user.is_authenticated %}
             <div class="welcome-msg">
-                Vítejte, {{ user.username }}!
+                Přihlášen, {{ user.username }}!
             </div>
         {% endif %}
 
         <!-- Obsah stránky -->
         {% block content %}
-        <!-- Příklad umístění grafů -->
+        <!-- umístění grafů -->
         <div class="row">
             <div class="col-md-6">
                 <canvas id="financeChart" width="400" height="400"></canvas>
@@ -230,7 +230,7 @@
             new Chart(ctx2, {
                 type: 'bar',
                 data: {
-                    labels: ['Label 1', 'Label 2', 'Label 3'], // Upravte dle potřeby
+                    labels: ['Leden', 'Únor', 'Březen'], // Upravte dle potřeby
                     datasets: [{
                         label: 'Název datasetu',
                         data: [10, 20, 30], // Nahraďte reálnými daty
