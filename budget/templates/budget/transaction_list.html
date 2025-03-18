@@ -1,56 +1,79 @@
 {% extends 'budget/base.html' %}
 {% block content %}
-<div class="transaction-container" style="min-height: 100vh; padding: 20px;">
-  <h2 class="transaction-title">Seznam transakcí</h2>
+<div class="transaction-container container my-5 p-4">
+  <h2 class="transaction-title text-center mb-4">Seznam transakcí</h2>
 
-  <!-- Filtrovací odkazy -->
-  <p class="filter-links">
-    <a href="?period=week">Týdenní</a> |
-    <a href="?period=month">Měsíční</a> |
-    <a href="{% url 'transaction_list' %}">Všechny</a>
-  </p>
+  <!-- Filtrovací odkazy jako nav-pills -->
+  <nav class="mb-4">
+    <ul class="nav nav-pills justify-content-center">
+      <li class="nav-item">
+        <a class="nav-link" href="?period=week">Týdenní</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="?period=month">Měsíční</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link active" href="{% url 'transaction_list' %}">Všechny</a>
+      </li>
+    </ul>
+  </nav>
 
-  <!-- Souhrn rozpočtu -->
-  <div class="summary">
-    <p><strong>Aktuální zůstatek:</strong> {{ balance }} Kč</p>
-    <p><strong>Příjmy:</strong> {{ total_income }} Kč</p>
-    <p><strong>Výdaje:</strong> {{ total_expense }} Kč</p>
+  <!-- Souhrn rozpočtu v kartě -->
+  <div class="summary card mb-4">
+    <div class="card-body">
+      <div class="row text-center">
+        <div class="col-md-4">
+          <p class="mb-1"><strong>Aktuální zůstatek:</strong></p>
+          <h4>{{ balance }} Kč</h4>
+        </div>
+        <div class="col-md-4">
+          <p class="mb-1"><strong>Příjmy:</strong></p>
+          <h4>{{ total_income }} Kč</h4>
+        </div>
+        <div class="col-md-4">
+          <p class="mb-1"><strong>Výdaje:</strong></p>
+          <h4>{{ total_expense }} Kč</h4>
+        </div>
+      </div>
+    </div>
   </div>
 
   <!-- Tabulka transakcí -->
-  <table class="transaction-table" border="1" cellspacing="0" cellpadding="8" style="width:100%; margin-top: 20px;">
-    <thead>
-      <tr>
-        <th>Datum</th>
-        <th>Kategorie</th>
-        <th>Částka</th>
-        <th>Poznámka</th>
-        <th>Akce</th>
-      </tr>
-    </thead>
-    <tbody>
-      {% for t in transactions %}
-      <tr>
-        <td>{{ t.date }}</td>
-        <td>{{ t.category.name }}</td>
-        <td>{{ t.amount }} Kč</td>
-        <td>{{ t.note }}</td>
-        <td>
-          <a href="{% url 'delete_transaction' t.id %}" class="delete-btn">Smazat</a>
-        </td>
-      </tr>
-      {% empty %}
-      <tr>
-        <td colspan="5" style="text-align:center;">Žádné transakce</td>
-      </tr>
-      {% endfor %}
-    </tbody>
-  </table>
+  <div class="table-responsive">
+    <table class="table table-striped table-hover">
+      <thead class="table-dark">
+        <tr>
+          <th>Datum</th>
+          <th>Kategorie</th>
+          <th>Částka</th>
+          <th>Poznámka</th>
+          <th>Akce</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for t in transactions %}
+        <tr>
+          <td>{{ t.date }}</td>
+          <td>{{ t.category.name }}</td>
+          <td>{{ t.amount }} Kč</td>
+          <td>{{ t.note }}</td>
+          <td>
+            <a href="{% url 'delete_transaction' t.id %}" class="btn btn-sm btn-danger">Smazat</a>
+          </td>
+        </tr>
+        {% empty %}
+        <tr>
+          <td colspan="5" class="text-center">Žádné transakce</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
 
   <!-- Tlačítko "Zpět" -->
-  <p class="back-button" style="text-align:right; margin-top:20px;">
-    <a href="{% url 'dashboard' %}">Zpět</a>
-  </p>
+  <div class="text-end mt-4">
+    <a href="{% url 'dashboard' %}" class="btn btn-secondary">Zpět</a>
+  </div>
 </div>
 {% endblock %}
 

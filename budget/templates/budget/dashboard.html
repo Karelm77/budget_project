@@ -5,7 +5,7 @@
 <p><strong>Celkové příjmy:</strong> {{ total_income }} Kč</p>
 <p><strong>Celkové výdaje:</strong> {{ total_expense }} Kč</p>
 
-<!-- Místo pro koláčový graf -->
+<!-- Místo pro grafy -->
 <div class="row">
   <!-- První graf: Přehled financí -->
   <div class="col-md-6">
@@ -36,11 +36,51 @@
   </div>
 </div>
 
-
-<div class="my-3">
-    <a href="{% url 'add_transaction' %}" class="btn btn-success">Přidat transakci</a>
-    <a href="{% url 'transaction_list' %}" class="btn btn-info">Zobrazit všechny transakce</a>
+<!-- Akční tlačítka: Přidat transakci, Zobrazit všechny transakce a Kalkulačka -->
+<div class="my-3 d-flex align-items-center">
+    <a href="{% url 'add_transaction' %}" class="btn btn-success me-2">Přidat transakci</a>
+    <div class="btn-group">
+        <a href="{% url 'transaction_list' %}" class="btn btn-info">Zobrazit všechny transakce</a>
+        <button id="calculatorBtn" class="btn btn-primary" type="button"
+                data-bs-toggle="collapse" data-bs-target="#calculator"
+                aria-expanded="false" aria-controls="calculator">
+            Kalkulačka
+        </button>
+    </div>
 </div>
+
+<!-- Kalkulačka (skrytá pomocí collapse) -->
+<div class="collapse mt-3" id="calculator">
+  <div class="card card-body calculator-container">
+    <div id="calc-display" class="mb-3">
+      <input type="text" id="calc-result" class="form-control" placeholder="0" readonly>
+    </div>
+    <div class="calculator-buttons">
+      <div class="btn-group d-flex flex-wrap">
+        <button class="btn btn-light calc-btn" value="7">7</button>
+        <button class="btn btn-light calc-btn" value="8">8</button>
+        <button class="btn btn-light calc-btn" value="9">9</button>
+        <button class="btn btn-secondary calc-btn" value="/">/</button>
+        <button class="btn btn-light calc-btn" value="4">4</button>
+        <button class="btn btn-light calc-btn" value="5">5</button>
+        <button class="btn btn-light calc-btn" value="6">6</button>
+        <button class="btn btn-secondary calc-btn" value="*">*</button>
+        <button class="btn btn-light calc-btn" value="1">1</button>
+        <button class="btn btn-light calc-btn" value="2">2</button>
+        <button class="btn btn-light calc-btn" value="3">3</button>
+        <button class="btn btn-secondary calc-btn" value="-">-</button>
+        <button class="btn btn-light calc-btn" value="0">0</button>
+        <button class="btn btn-light calc-btn" value=".">.</button>
+        <button class="btn btn-danger" id="calc-clear">C</button>
+        <button class="btn btn-secondary calc-btn" value="+">+</button>
+      </div>
+      <div class="mt-2">
+        <button class="btn btn-success w-100" id="calc-equals">=</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 
 <h3>Poslední transakce</h3>
 <table class="table table-striped">
@@ -67,4 +107,45 @@
         {% endfor %}
     </tbody>
 </table>
+{% endblock %}
+
+{% block extra_scripts %}
+  {{ block.super }}
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // Kalkulačka logika
+      const calcResult = document.getElementById('calc-result');
+      const calcButtons = document.querySelectorAll('.calc-btn');
+      const calcClear = document.getElementById('calc-clear');
+      const calcEquals = document.getElementById('calc-equals');
+
+      let expression = '';
+
+      // Přidání akcí ke všem tlačítkům s čísly a operátory
+      calcButtons.forEach(button => {
+        button.addEventListener('click', function () {
+          expression += this.value;
+          calcResult.value = expression;
+        });
+      });
+
+      // Vymazat výraz (C)
+      calcClear.addEventListener('click', function () {
+        expression = '';
+        calcResult.value = '';
+      });
+
+      // Vyhodnotit výraz (=)
+      calcEquals.addEventListener('click', function () {
+        try {
+          const result = eval(expression);
+          calcResult.value = result;
+          expression = result.toString();
+        } catch (error) {
+          calcResult.value = 'Error';
+          expression = '';
+        }
+      });
+    });
+  </script>
 {% endblock %}
