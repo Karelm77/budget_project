@@ -1,0 +1,15 @@
+{% extends 'budget/base.html' %}
+{% block content %}
+<h2>Opravdu chcete smazat tuto transakci?</h2>
+<p>
+  <strong>Datum:</strong> {{ transaction.date }}<br>
+  <strong>Kategorie:</strong> {{ transaction.category.name }}<br>
+  <strong>Částka:</strong> {{ transaction.amount }}<br>
+  <strong>Poznámka:</strong> {{ transaction.note }}
+</p>
+<form method="post">
+    {% csrf_token %}
+    <button type="submit" class="btn btn-danger">Smazat</button>
+    <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Zrušit</a>
+</form>
+{% endblock %}

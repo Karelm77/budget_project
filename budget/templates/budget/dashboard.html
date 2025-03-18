@@ -1,0 +1,70 @@
+{% extends 'budget/base.html' %}
+{% block content %}
+<h2>Přehled rozpočtu</h2>
+<p><strong>Aktuální zůstatek:</strong> {{ balance }} Kč</p>
+<p><strong>Celkové příjmy:</strong> {{ total_income }} Kč</p>
+<p><strong>Celkové výdaje:</strong> {{ total_expense }} Kč</p>
+
+<!-- Místo pro koláčový graf -->
+<div class="row">
+  <!-- První graf: Přehled financí -->
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header">
+        Přehled financí
+      </div>
+      <div class="card-body">
+        <div style="width: 200px; height: 200px; margin: 0;">
+          <canvas id="financeChart" width="200" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Druhý graf: Například sloupcový graf -->
+  <div class="col-md-6">
+    <div class="card mb-3">
+      <div class="card-header">
+        Graf 2
+      </div>
+      <div class="card-body">
+        <div style="width: 200px; height: 200px; margin: 0;">
+          <canvas id="otherChart" width="200" height="200"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+<div class="my-3">
+    <a href="{% url 'add_transaction' %}" class="btn btn-success">Přidat transakci</a>
+    <a href="{% url 'transaction_list' %}" class="btn btn-info">Zobrazit všechny transakce</a>
+</div>
+
+<h3>Poslední transakce</h3>
+<table class="table table-striped">
+    <thead>
+        <tr>
+            <th>Datum</th>
+            <th>Kategorie</th>
+            <th>Částka</th>
+            <th>Poznámka</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for t in transactions %}
+        <tr>
+            <td>{{ t.date }}</td>
+            <td>{{ t.category.name }}</td>
+            <td>{{ t.amount }} Kč</td>
+            <td>{{ t.note }}</td>
+        </tr>
+        {% empty %}
+        <tr>
+            <td colspan="4">Žádné transakce</td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+{% endblock %}

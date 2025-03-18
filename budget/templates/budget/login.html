@@ -1,0 +1,95 @@
+{% extends 'budget/base.html' %}
+{% load widget_tweaks %}
+{% load static %}
+{% block content %}
+<div class="container my-5">
+  <div class="row align-items-start">
+    <!-- Levý sloupec: Přihlašovací formulář -->
+    <div class="col-md-6">
+      <div class="login-container">
+        <div class="card shadow-lg mb-4">
+          <div class="card-header text-center bg-primary text-white">
+            <h3>Přihlášení</h3>
+          </div>
+          <div class="card-body">
+            {% if form.errors %}
+              <div class="alert alert-danger">
+                {% if form.non_field_errors %}
+                  {% for error in form.non_field_errors %}
+                    <div>{{ error }}</div>
+                  {% endfor %}
+                {% endif %}
+                {% for field in form %}
+                  {% for error in field.errors %}
+                    <div><strong>{{ field.label }}:</strong> {{ error }}</div>
+                  {% endfor %}
+                {% endfor %}
+              </div>
+            {% endif %}
+            <form method="post" novalidate>
+              {% csrf_token %}
+              <div class="mb-3">
+                <label for="{{ form.username.id_for_label }}" class="form-label">{{ form.username.label }}</label>
+                {{ form.username|add_class:"form-control" }}
+              </div>
+              <div class="mb-3">
+                <label for="{{ form.password.id_for_label }}" class="form-label">{{ form.password.label }}</label>
+                {{ form.password|add_class:"form-control" }}
+              </div>
+              <button class="btn btn-primary w-100" type="submit">Přihlásit se</button>
+            </form>
+          </div>
+          <div class="card-footer text-center">
+            <small>
+              {# Zde můžete případně vložit odkaz na reset hesla #}
+            </small>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pravý sloupec: Článek s obrázkem a tlačítkem "Čtěte dále..." -->
+    <div class="col-md-6">
+      <article>
+        <h2 class="mb-3">Sledujte své finance: Klíč k finanční jistotě a úsporám</h2>
+        <img src="{% static 'budget/images/money.png' %}" alt="Popis obrázku" class="img-fluid mb-3" style="max-width: 150px;">
+        <!-- Viditelný text: první tři věty -->
+        <p class="lead">
+          Sledování vašich příjmů a výdajů vám pomůže lépe pochopit, jak hospodaříte s penězi.
+          Záznam finančních toků odhalí skryté výdaje a motivuje vás k úsporám.
+          Tento přehled vám umožní vytvářet efektivní rozpočty a plánovat budoucí investice.
+        </p>
+        <!-- Skrytý obsah, který se rozbalí po kliknutí -->
+        <div class="collapse" id="moreArticle">
+          <hr>
+          <p>
+            Když máte jasný přehled o tom, kam vaše peníze směřují, můžete snadněji identifikovat oblasti, kde se dá ušetřit.
+            Efektivní sledování financí přináší finanční jistotu a umožňuje vám lépe investovat do budoucnosti.
+            Získáte lepší finanční gramotnost, což vede k zodpovědnějšímu rozhodování o každodenních výdajích.
+          </p>
+          <h5>Proč sledovat své finance?</h5>
+          <ol>
+            <li>
+              <strong>Vědomost a transparentnost:</strong> Každý příjem i výdaj má svůj příběh. Zaznamenávání toků peněz odhalí skryté výdaje a poskytne vám jasný obrázek o finančních tocích.
+            </li>
+            <li>
+              <strong>Lepší plánování a rozhodování:</strong> Detailní přehled vám umožní sestavit efektivní rozpočty a lépe plánovat budoucí investice či spoření.
+            </li>
+            <li>
+              <strong>Motivace ke změně:</strong> Pravidelné sledování financí vede k pozitivním změnám ve vašich zvycích a pomáhá dosáhnout finanční stability.
+            </li>
+          </ol>
+        </div>
+        <!-- Tlačítko pro rozbalení/skrytí skrytého obsahu s unikátním ID -->
+        <a id="toggleArticle" class="btn btn-link p-0" data-bs-toggle="collapse" href="#moreArticle" role="button" aria-expanded="false" aria-controls="moreArticle">
+          Čtěte dále...
+        </a>
+      </article>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+
+
+

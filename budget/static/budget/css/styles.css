@@ -1,0 +1,96 @@
+/* Obecný styl pro obsahové bloky transakcí */
+.transaction-container {
+  background-color: #ffffff; /* světlé pozadí pro lepší čitelnost */
+  border-radius: 6px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+}
+
+/* Styl nadpisu */
+.transaction-title {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  color: #2c3e50;
+  margin-bottom: 15px;
+}
+
+/* Filtrovací odkazy – jemná změna barvy a podtržení při hoveru */
+.filter-links a {
+  color: #007bff;
+  font-weight: 500;
+  text-decoration: none;
+  transition: color 0.2s;
+}
+
+.filter-links a:hover {
+  color: #0056b3;
+  text-decoration: underline;
+}
+
+/* Souhrn rozpočtu – decentní zvýraznění */
+.summary {
+  background-color: #f1f8ff;
+  border-left: 4px solid #007bff;
+  padding: 15px 20px;
+  margin: 15px 0;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+.summary p {
+  margin: 0.5rem 0;
+}
+
+/* Tabulka transakcí – vylepšení vzhledu hlavičky a oddělení řádků */
+.transaction-table {
+  border-collapse: collapse;
+  background-color: #fff;
+}
+
+.transaction-table th {
+  background-color: #007bff;
+  color: #fff;
+  font-weight: 600;
+  padding: 10px;
+}
+
+.transaction-table td {
+  background-color: #f9f9f9;
+  color: #333;
+  padding: 10px;
+  border: 1px solid #e1e1e1;
+}
+
+/* Hover efekt u řádků tabulky */
+.transaction-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* Styl pro tlačítko Smazat v tabulce */
+.delete-btn {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: #fff;
+  border: none;
+  border-radius: 3px;
+  font-size: 0.9rem;
+  text-decoration: none;
+  transition: background-color 0.2s;
+}
+
+.delete-btn:hover {
+  background-color: #c82333;
+}
+
+/* Styl tlačítka Zpět – podobný moderním tlačítkům */
+.back-button a {
+  padding: 8px 16px;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  text-decoration: none;
+  font-weight: 500;
+  transition: background-color 0.2s;
+}
+
+.back-button a:hover {
+  background-color: #0056b3;
+}
