@@ -1,6 +1,7 @@
 {% extends 'budget/base.html' %}
 {% load widget_tweaks %}
 {% load static %}
+
 {% block content %}
 <div class="container my-5">
   <div class="row align-items-start">
@@ -41,7 +42,7 @@
           </div>
           <div class="card-footer text-center">
             <small>
-              {# Zde se může případně vložit odkaz na reset hesla #}
+              {# Případně vlož odkaz na reset hesla #}
             </small>
           </div>
         </div>
@@ -53,13 +54,11 @@
       <article>
         <h2 class="mb-3">Sledujte své finance: Klíč k finanční jistotě a úsporám</h2>
         <img src="{% static 'budget/images/money.png' %}" alt="Popis obrázku" class="img-fluid mb-3" style="max-width: 150px;">
-        <!-- Viditelný text: první tři věty -->
         <p class="lead">
           Sledování vašich příjmů a výdajů vám pomůže lépe pochopit, jak hospodaříte s penězi.
           Záznam finančních toků odhalí skryté výdaje a motivuje vás k úsporám.
           Tento přehled vám umožní vytvářet efektivní rozpočty a plánovat budoucí investice.
         </p>
-        <!-- Skrytý obsah, který se rozbalí po kliknutí -->
         <div class="collapse" id="moreArticle">
           <hr>
           <p>
@@ -80,7 +79,6 @@
             </li>
           </ol>
         </div>
-        <!-- Tlačítko pro rozbalení/skrytí skrytého obsahu s unikátním ID -->
         <a id="toggleArticle" class="btn btn-link p-0" data-bs-toggle="collapse" href="#moreArticle" role="button" aria-expanded="false" aria-controls="moreArticle">
           Čtěte dále...
         </a>
@@ -89,7 +87,5 @@
   </div>
 </div>
 {% endblock %}
-
-
 
 

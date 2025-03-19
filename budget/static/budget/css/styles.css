@@ -5,13 +5,20 @@
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
 }
 
+.navbar-custom {
+  background-color: #007bff; /* nebo kteroukoliv jinou barvu */
+  min-height: 80px;
+  /* případně další úpravy, např. padding */
+}
+
 /* Styl nadpisu */
 .transaction-title {
   font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
   color: #2c3e50;
   margin-bottom: 15px;
 }
-/*Přizpůsobení responzivity*/
+
+/* Přizpůsobení responzivity */
 @media (max-width: 576px) {
     .transaction-container {
         padding: 10px;
@@ -23,7 +30,33 @@
         max-width: 100%;
     }
 }
+.calculator-container {
+    width: 100%;
+    max-width: 300px !important;
+    margin: 0;
+    padding: 15px;
+    box-sizing: border-box;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    transition: all 0.3s ease;
+}
 
+#calculatorBtn {
+    margin-left: 8px;
+}
+
+
+.calculator-wrapper {
+    text-align: left;
+}
+
+
+.calculator-buttons .btn {
+    flex: 1 1 21%;
+    margin: 5px;
+    font-size: 1.2rem;
+}
 
 /* Filtrovací odkazy – jemná změna barvy a podtržení při hoveru */
 .filter-links a {
@@ -119,7 +152,7 @@
 /* ===== KONTEJNER ===== */
 .container {
     margin-top: 50px;
-    background: transparent; /* Ověřte, zda container nemá vlastní pozadí */
+    background: transparent;
 }
 
 /* ===== FORMULÁŘE A TLAČÍTKA ===== */
@@ -133,25 +166,30 @@ form {
 .mb-3 {
     margin-bottom: 15px;
 }
+
 body {
     font-family: 'Roboto', sans-serif;
 }
+
 .transaction-title {
     font-family: 'Montserrat', sans-serif;
 }
+
 .transaction-table tbody tr {
     transition: background-color 0.3s ease;
 }
+
 .transaction-table tbody tr:hover {
-    background-color: #e6f7ff; /* nebo jiná jemná barva, která kontrastuje */
+    background-color: #e6f7ff;
 }
+
 .btn {
     transition: background-color 0.3s ease, transform 0.2s ease;
 }
+
 .btn:hover {
     transform: scale(1.02);
 }
-
 
 .text-danger,
 .alert-danger {
@@ -175,131 +213,4 @@ body {
     display: block;
     max-width: 100%;
     margin: auto;
-}
-
-/* ===== STYLY PRO TRANSAKCE A OBSAH SOUVISEJÍCÍ BLOKY ===== */
-/* Obecný styl pro obsahové bloky transakcí */
-.transaction-container {
-    background-color: #ffffff; /* světlé pozadí pro lepší čitelnost */
-    border-radius: 6px;
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
-
-/* Styl nadpisu transakce */
-.transaction-title {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    color: #2c3e50;
-    margin-bottom: 15px;
-}
-
-/* Filtrovací odkazy – jemná změna barvy a podtržení při hoveru */
-.filter-links a {
-    color: #007bff;
-    font-weight: 500;
-    text-decoration: none;
-    transition: color 0.2s;
-}
-
-.filter-links a:hover {
-    color: #0056b3;
-    text-decoration: underline;
-}
-
-/* Souhrn rozpočtu – decentní zvýraznění */
-.summary {
-    background-color: #f1f8ff;
-    border-left: 4px solid #007bff;
-    padding: 15px 20px;
-    margin: 15px 0;
-    border-radius: 4px;
-    font-size: 1rem;
-}
-
-.calculator-container {
-    width: 100%;
-    max-width: 300px !important;
-    margin: 0;
-    padding: 15px;
-    box-sizing: border-box;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    transition: all 0.3s ease;
-}
-
-#calculatorBtn {
-    margin-left: 8px;
-}
-
-
-.calculator-wrapper {
-    text-align: left;
-}
-
-
-.calculator-buttons .btn {
-    flex: 1 1 21%;
-    margin: 5px;
-    font-size: 1.2rem;
-}
-
-
-.summary p {
-    margin: 0.5rem 0;
-}
-
-/* Tabulka transakcí – vzhled hlavičky a buněk */
-.transaction-table {
-    border-collapse: collapse;
-    background-color: #fff;
-}
-
-.transaction-table th {
-    background-color: #007bff;
-    color: #fff;
-    font-weight: 600;
-    padding: 10px;
-}
-
-.transaction-table td {
-    background-color: #f9f9f9;
-    color: #333;
-    padding: 10px;
-    border: 1px solid #e1e1e1;
-}
-
-/* Hover efekt u řádků tabulky */
-.transaction-table tbody tr:hover {
-    background-color: #f1f1f1;
-}
-
-/* Styl pro tlačítko Smazat v tabulce */
-.delete-btn {
-    padding: 5px 10px;
-    background-color: #dc3545;
-    color: #fff;
-    border: none;
-    border-radius: 3px;
-    font-size: 0.9rem;
-    text-decoration: none;
-    transition: background-color 0.2s;
-}
-
-.delete-btn:hover {
-    background-color: #c82333;
-}
-
-/* Styl tlačítka Zpět – moderní vzhled tlačítka */
-.back-button a {
-    padding: 8px 16px;
-    background-color: #007bff;
-    color: #fff;
-    border-radius: 4px;
-    text-decoration: none;
-    font-weight: 500;
-    transition: background-color 0.2s;
-}
-
-.back-button a:hover {
-    background-color: #0056b3;
 }

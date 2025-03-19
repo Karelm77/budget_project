@@ -8,6 +8,10 @@ from django.db.models.functions import ExtractMonth  # potřebné pro extrakci m
 from .forms import RegistrationForm, TransactionForm
 from .models import Transaction
 
+
+def contact(request):
+    return render(request, 'budget/contact.html')
+
 @login_required
 def delete_transaction(request, pk):
     transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
