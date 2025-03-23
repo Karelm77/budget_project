@@ -1,15 +1,26 @@
 {% extends 'budget/base.html' %}
+
 {% block content %}
-<h2>Opravdu chcete smazat tuto transakci?</h2>
-<p>
-  <strong>Datum:</strong> {{ transaction.date }}<br>
-  <strong>Kategorie:</strong> {{ transaction.category.name }}<br>
-  <strong>Částka:</strong> {{ transaction.amount }}<br>
-  <strong>Poznámka:</strong> {{ transaction.note }}
-</p>
-<form method="post">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Smazat</button>
-    <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Zrušit</a>
-</form>
+<div class="container mt-5">
+  <div class="card shadow-sm">
+    <div class="card-header bg-danger text-white">
+      <h2 class="mb-0">Opravdu chcete smazat tuto transakci?</h2>
+    </div>
+    <div class="card-body">
+      <ul class="list-group list-group-flush mb-4">
+        <li class="list-group-item"><strong>Datum:</strong> {{ transaction.date }}</li>
+        <li class="list-group-item"><strong>Kategorie:</strong> {{ transaction.category.name }}</li>
+        <li class="list-group-item"><strong>Částka:</strong> {{ transaction.amount }}</li>
+        <li class="list-group-item"><strong>Poznámka:</strong> {{ transaction.note }}</li>
+      </ul>
+      <form method="post">
+          {% csrf_token %}
+          <div class="d-flex justify-content-between">
+              <button type="submit" class="btn btn-danger">Smazat</button>
+              <a href="{% url 'transaction_list' %}" class="btn btn-secondary">Zrušit</a>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
 {% endblock %}

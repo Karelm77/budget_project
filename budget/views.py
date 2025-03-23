@@ -12,6 +12,7 @@ from .models import Transaction
 def contact(request):
     return render(request, 'budget/contact.html')
 
+
 @login_required
 def delete_transaction(request, pk):
     transaction = get_object_or_404(Transaction, pk=pk, user=request.user)
@@ -19,6 +20,7 @@ def delete_transaction(request, pk):
         transaction.delete()
         return redirect('transaction_list')
     return render(request, 'budget/confirm_delete.html', {'transaction': transaction})
+
 
 def register(request):
     if request.method == 'POST':
@@ -30,36 +32,45 @@ def register(request):
         form = RegistrationForm()
     return render(request, 'budget/register.html', {'form': form})
 
+
 @login_required
 def dashboard(request):
     # Načtení všech transakcí přihlášeného uživatele
     transactions = Transaction.objects.filter(user=request.user).order_by('-date')
-    total_income = transactions.filter(category__type='income').aggregate(Sum('amount'))['amount__sum'] or 0
-    total_expense = transactions.filter(category__type='expense').aggregate(Sum('amount'))['amount__sum'] or 0
+    total_income = transactions.filter(category__type='income').aggregate(total=Sum('amount'))['total'] or 0
+    total_expense = transactions.filter(category__type='expense').aggregate(total=Sum('amount'))['total'] or 0
     balance = total_income - total_expense
 
     # Agregace transakcí podle měsíce
-    monthly_data = (
+    monthly_data_query = (
         Transaction.objects.filter(user=request.user)
         .annotate(month=ExtractMonth('date'))
         .values('month')
         .annotate(total=Sum('amount'))
         .order_by('month')
     )
-    # Vytvoření pole se 12 hodnotami (index 0 pro leden ... index 11 pro prosinec)
+    # Vytvoření pole se 12 hodnotami (index 0 = Leden ... index 11 = Prosinec)
     monthly_totals = [0] * 12
-    for record in monthly_data:
-        month_index = record['month'] - 1  # měsíce od 1 do 12
+    for record in monthly_data_query:
+        month_index = record['month'] - 1  # měsíce jsou číslovány 1 až 12
         monthly_totals[month_index] = record['total'] or 0
+
+    # Předem definované názvy měsíců (v češtině)
+    month_labels = [
+        "Leden", "Únor", "Březen", "Duben", "Květen", "Červen",
+        "Červenec", "Srpen", "Září", "Říjen", "Listopad", "Prosinec"
+    ]
 
     context = {
         'transactions': transactions[:5],  # zobrazí 5 nejnovějších transakcí
         'total_income': total_income,
         'total_expense': total_expense,
         'balance': balance,
-        'monthly_totals': monthly_totals,
+        'monthly_labels': month_labels,
+        'monthly_data': monthly_totals,
     }
     return render(request, 'budget/dashboard.html', context)
+
 
 @login_required
 def add_transaction(request):
@@ -74,6 +85,7 @@ def add_transaction(request):
         form = TransactionForm()
     return render(request, 'budget/add_transaction.html', {'form': form})
 
+
 @login_required
 def transaction_list(request):
     period = request.GET.get('period')
@@ -86,8 +98,8 @@ def transaction_list(request):
     elif period == 'month':
         transactions = transactions.filter(date__year=now.year, date__month=now.month)
 
-    total_income = transactions.filter(category__type='income').aggregate(Sum('amount'))['amount__sum'] or 0
-    total_expense = transactions.filter(category__type='expense').aggregate(Sum('amount'))['amount__sum'] or 0
+    total_income = transactions.filter(category__type='income').aggregate(total=Sum('amount'))['total'] or 0
+    total_expense = transactions.filter(category__type='expense').aggregate(total=Sum('amount'))['total'] or 0
     balance = total_income - total_expense
 
     context = {
@@ -98,3 +110,5 @@ def transaction_list(request):
         'period': period,
     }
     return render(request, 'budget/transaction_list.html', context)
+
+

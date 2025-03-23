@@ -20,4 +20,6 @@ class Transaction(models.Model):
     note = models.TextField(blank=True, null=True)
 
     def __str__(self):
-        return f"{self.user.username} - {self.category.name} - {self.amount}"
+        category_name = self.category.name if self.category else "bez kategorie"
+        return f"{self.user.username} - {category_name} - {self.amount}"
+

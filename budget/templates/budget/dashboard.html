@@ -7,7 +7,7 @@
 
 <!-- Místo pro grafy -->
 <div class="row">
-  <!-- První graf: Přehled financí -->
+  <!-- První graf: Přehled financí (koláčový graf) -->
   <div class="col-md-6">
     <div class="card mb-3">
       <div class="card-header">
@@ -21,11 +21,11 @@
     </div>
   </div>
 
-  <!-- Druhý graf: Například sloupcový graf -->
+  <!-- Druhý graf: Sloupcový graf srovnání měsíčních financí -->
   <div class="col-md-6">
     <div class="card mb-3">
       <div class="card-header">
-        Graf 2
+        Srovnání měsíčních financí
       </div>
       <div class="card-body">
         <div style="width: 200px; height: 200px; margin: 0;">
@@ -81,7 +81,6 @@
   </div>
 </div>
 
-
 <h3>Poslední transakce</h3>
 <table class="table table-striped">
     <thead>
@@ -111,9 +110,78 @@
 
 {% block extra_scripts %}
   {{ block.super }}
+  <!-- Uložení dat do HTML pomocí json_script -->
+  <script id="monthly-labels" type="application/json">
+      {{ monthly_labels|json_script:"monthlyLabels" }}
+  </script>
+  <script id="monthly-data" type="application/json">
+      {{ monthly_data|json_script:"monthlyData" }}
+  </script>
+
+  <!-- Inicializace grafů -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
-      // Kalkulačka logika
+      // Inicializace prvního grafu (koláčový graf: Přehled financí)
+      var financeCanvas = document.getElementById('financeChart');
+      if (financeCanvas) {
+        var financeCtx = financeCanvas.getContext('2d');
+        new Chart(financeCtx, {
+          type: 'pie',
+          data: {
+            labels: ['Příjmy', 'Výdaje'],
+            datasets: [{
+              data: [{{ total_income }}, {{ total_expense }}],
+              backgroundColor: ['#28a745', '#dc3545']
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom' }
+            }
+          }
+        });
+      }
+
+      // Inicializace druhého grafu (sloupcový graf: Srovnání měsíčních financí)
+      var otherCanvas = document.getElementById('otherChart');
+      if (otherCanvas) {
+        var otherCtx = otherCanvas.getContext('2d');
+        // Načtení dat ze skriptových elementů a jejich převod pomocí JSON.parse
+        var monthlyLabels = JSON.parse(document.getElementById('monthly-labels').textContent);
+        var monthlyData = JSON.parse(document.getElementById('monthly-data').textContent);
+        console.log("Monthly Labels:", monthlyLabels);
+        console.log("Monthly Data:", monthlyData);  // Pro ladění
+
+        new Chart(otherCtx, {
+          type: 'bar',
+          data: {
+            labels: monthlyLabels,
+            datasets: [{
+              label: 'Celkové transakce',
+              data: monthlyData,
+              backgroundColor: 'rgba(54, 162, 235, 0.5)',
+              borderColor: 'rgba(54, 162, 235, 1)',
+              borderWidth: 1
+            }]
+          },
+          options: {
+            responsive: true,
+            plugins: {
+              legend: { position: 'bottom' }
+            },
+            scales: {
+              y: { beginAtZero: true }
+            }
+          }
+        });
+      }
+    });
+  </script>
+
+  <!-- Vaše další skripty (např. kalkulačka) zůstávají beze změny -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
       const calcResult = document.getElementById('calc-result');
       const calcButtons = document.querySelectorAll('.calc-btn');
       const calcClear = document.getElementById('calc-clear');
@@ -129,13 +197,13 @@
         });
       });
 
-      // Vymazat výraz (C)
+      // Vymazání výrazu
       calcClear.addEventListener('click', function () {
         expression = '';
         calcResult.value = '';
       });
 
-      // Vyhodnotit výraz (=)
+      // Vyhodnocení výrazu
       calcEquals.addEventListener('click', function () {
         try {
           const result = eval(expression);
@@ -148,4 +216,65 @@
       });
     });
   </script>
-{% endblock %}
+
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const calcResult = document.getElementById('calc-result');
+      const calcButtons = document.querySelectorAll('.calc-btn');
+      const calcClear = document.getElementById('calc-clear');
+      const calcEquals = document.getElementById('calc-equals');
+      let expression = '';
+
+      calcButtons.forEach(button => {
+          button.addEventListener('click', function () {
+              expression += this.value;
+              calcResult.value = expression;
+          });
+      });
+
+      calcClear.addEventListener('click', function () {
+          expression = '';
+          calcResult.value = '';
+      });
+
+      calcEquals.addEventListener('click', function () {
+          try {
+              const result = eval(expression);
+              calcResult.value = result;
+              expression = result.toString();
+          } catch (error) {
+              calcResult.value = 'Error';
+              expression = '';
+          }
+      });
+
+      // Podpora pro klávesnici
+      document.addEventListener('keydown', function (event) {
+          const allowedKeys = "0123456789.+-*/";
+          if (allowedKeys.includes(event.key)) {
+              expression += event.key;
+              calcResult.value = expression;
+          } else if (event.key === "Enter") {
+              try {
+                  const result = eval(expression);
+                  calcResult.value = result;
+                  expression = result.toString();
+              } catch (error) {
+                  calcResult.value = 'Error';
+                  expression = '';
+              }
+              event.preventDefault();
+          } else if (event.key === "Backspace") {
+              expression = expression.slice(0, -1);
+              calcResult.value = expression;
+              event.preventDefault();
+          } else if (event.key === "Escape") {
+              expression = '';
+              calcResult.value = '';
+          }
+      });
+    });
+  </script>
+{% endblock extra_scripts %}
+
+

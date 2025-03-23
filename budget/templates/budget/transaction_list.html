@@ -7,19 +7,19 @@
   <nav class="mb-4">
     <ul class="nav nav-pills justify-content-center">
       <li class="nav-item">
-        <a class="nav-link" href="?period=week">Týdenní</a>
+        <a class="nav-link {% if request.GET.period == 'week' %}active{% endif %}" href="?period=week">Týdenní</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="?period=month">Měsíční</a>
+        <a class="nav-link {% if request.GET.period == 'month' %}active{% endif %}" href="?period=month">Měsíční</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link active" href="{% url 'transaction_list' %}">Všechny</a>
+        <a class="nav-link {% if not request.GET.period %}active{% endif %}" href="{% url 'transaction_list' %}">Všechny</a>
       </li>
     </ul>
   </nav>
 
   <!-- Souhrn rozpočtu v kartě -->
-  <div class="summary card mb-4">
+  <div class="summary card mb-4 shadow-sm">
     <div class="card-body">
       <div class="row text-center">
         <div class="col-md-4">
@@ -40,12 +40,12 @@
 
   <!-- Tabulka transakcí -->
   <div class="table-responsive">
-    <table class="table table-striped table-hover">
+    <table class="table table-striped table-hover align-middle">
       <thead class="table-dark">
         <tr>
           <th>Datum</th>
           <th>Kategorie</th>
-          <th>Částka</th>
+          <th class="text-end">Částka</th>
           <th>Poznámka</th>
           <th>Akce</th>
         </tr>
@@ -55,7 +55,13 @@
         <tr>
           <td>{{ t.date }}</td>
           <td>{{ t.category.name }}</td>
-          <td>{{ t.amount }} Kč</td>
+          <td class="text-end">
+            {% if t.amount < 0 %}
+              <span class="text-danger">{{ t.amount }} Kč</span>
+            {% else %}
+              <span class="text-success">{{ t.amount }} Kč</span>
+            {% endif %}
+          </td>
           <td>{{ t.note }}</td>
           <td>
             <a href="{% url 'delete_transaction' t.id %}" class="btn btn-sm btn-danger">Smazat</a>
@@ -76,4 +82,5 @@
   </div>
 </div>
 {% endblock %}
+
 

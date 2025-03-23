@@ -6,7 +6,7 @@
 }
 
 .navbar-custom {
-  background-color: #007bff; /* nebo kteroukoliv jinou barvu */
+  background-color: #aef3ba; /* nebo kteroukoliv jinou barvu */
   min-height: 80px;
   /* případně další úpravy, např. padding */
 }
@@ -126,7 +126,7 @@
   background-color: #c82333;
 }
 
-/* Styl tlačítka Zpět – podobný moderním tlačítkům */
+/* Styl tlačítka Zpět */
 .back-button a {
   padding: 8px 16px;
   background-color: #007bff;

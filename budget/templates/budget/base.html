@@ -9,7 +9,6 @@
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{% static 'css/styles.css' %}">
 
-
     <!-- Vlastní styly -->
     <link rel="stylesheet" href="{% static 'budget/css/styles.css' %}">
     <style>
@@ -155,22 +154,22 @@
         </div>
 
         <!-- hlavička s přihlašovacími odkazy -->
-<div class="header d-flex justify-content-between align-items-center">
-  <div>
-    {% if user.is_authenticated %}
-      <form method="post" action="{% url 'logout' %}" class="d-inline">
-        {% csrf_token %}
-        <button type="submit" class="btn btn-link p-0 align-baseline">Odhlásit se</button>
-      </form>
-    {% else %}
-      <div class="d-flex align-items-center">
-        <a href="{% url 'login' %}" class="me-3">Přihlásit se</a>
-        <a href="{% url 'register' %}" class="me-3">Registrovat</a>
-        <a href="{% url 'kontakt' %}" class="nav-link p-0">Kontakt</a>
-      </div>
-    {% endif %}
-  </div>
-</div>
+        <div class="header d-flex justify-content-between align-items-center">
+          <div>
+            {% if user.is_authenticated %}
+              <form method="post" action="{% url 'logout' %}" class="d-inline">
+                {% csrf_token %}
+                <button type="submit" class="btn btn-link p-0 align-baseline">Odhlásit se</button>
+              </form>
+            {% else %}
+              <div class="d-flex align-items-center">
+                <a href="{% url 'login' %}" class="me-3">Přihlásit se</a>
+                <a href="{% url 'register' %}" class="me-3">Registrovat</a>
+                <a href="{% url 'kontakt' %}" class="nav-link p-0">Kontakt</a>
+              </div>
+            {% endif %}
+          </div>
+        </div>
 
         <hr>
         {% if user.is_authenticated %}
@@ -270,88 +269,31 @@
     });
     </script>
     <script>
-document.addEventListener('DOMContentLoaded', function () {
-    // Kalkulačka
-    const calcResult = document.getElementById('calc-result');
-    const calcButtons = document.querySelectorAll('.calc-btn');
-    const calcClear = document.getElementById('calc-clear');
-    const calcEquals = document.getElementById('calc-equals');
+    document.addEventListener('DOMContentLoaded', function () {
+        // Kalkulačka - základní ovládání tlačítek
+        const calcResult = document.getElementById('calc-result');
+        const calcButtons = document.querySelectorAll('.calc-btn');
+        const calcClear = document.getElementById('calc-clear');
+        const calcEquals = document.getElementById('calc-equals');
 
-    let expression = '';
+        let expression = '';
 
-    // Přidání posluchače pro každé tlačítko s čísly nebo operátory
-    calcButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            expression += this.value;
-            calcResult.value = expression;
+        // Přidání posluchače pro každé tlačítko s čísly nebo operátory
+        calcButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                expression += this.value;
+                calcResult.value = expression;
+            });
         });
-    });
 
-    // Vymazání displeje
-    calcClear.addEventListener('click', function () {
-        expression = '';
-        calcResult.value = '';
-    });
-
-    // Vyhodnocení výrazu
-    calcEquals.addEventListener('click', function () {
-        try {
-            // Používejte eval opatrně – vhodné je přejít na bezpečnější metodu u složitějších aplikací
-            const result = eval(expression);
-            calcResult.value = result;
-            expression = result.toString();
-        } catch (error) {
-            calcResult.value = 'Error';
+        // Vymazání displeje
+        calcClear.addEventListener('click', function () {
             expression = '';
-        }
-    });
-});
-</script>
-    <script>
-document.addEventListener('DOMContentLoaded', function () {
-    const calcResult = document.getElementById('calc-result');
-    const calcButtons = document.querySelectorAll('.calc-btn');
-    const calcClear = document.getElementById('calc-clear');
-    const calcEquals = document.getElementById('calc-equals');
-
-    let expression = '';
-
-    // Klikací ovládání tlačítek
-    calcButtons.forEach(button => {
-        button.addEventListener('click', function () {
-            expression += this.value;
-            calcResult.value = expression;
+            calcResult.value = '';
         });
-    });
 
-    // Vymazání tokenu při kliknutí na tlačítko "C"
-    calcClear.addEventListener('click', function () {
-        expression = '';
-        calcResult.value = '';
-    });
-
-    // Vyhodnocení výrazu při klikání na "="
-    calcEquals.addEventListener('click', function () {
-        try {
-            const result = eval(expression);
-            calcResult.value = result;
-            expression = result.toString();
-        } catch (error) {
-            calcResult.value = 'Error';
-            expression = '';
-        }
-    });
-
-    // Přidání podpory pro klávesnici
-    document.addEventListener('keydown', function (event) {
-        // Povolené znaky: číslice, tečka a základní operátory
-        const allowedKeys = "0123456789.+-*/";
-
-        if (allowedKeys.includes(event.key)) {
-            expression += event.key;
-            calcResult.value = expression;
-        } else if (event.key === "Enter") {
-            // Vyhodnotit výraz při stisknutí klávesy Enter
+        // Vyhodnocení výrazu
+        calcEquals.addEventListener('click', function () {
             try {
                 const result = eval(expression);
                 calcResult.value = result;
@@ -360,26 +302,76 @@ document.addEventListener('DOMContentLoaded', function () {
                 calcResult.value = 'Error';
                 expression = '';
             }
-            // Zamezení výchozí akci (např. odeslání formuláře)
-            event.preventDefault();
-        } else if (event.key === "Backspace") {
-            // Smazat poslední zadaný znak
-            expression = expression.slice(0, -1);
-            calcResult.value = expression;
-            event.preventDefault();
-        } else if (event.key === "Escape") {
-            // Vymazat celý výraz při stisknutí Escape
+        });
+    });
+    </script>
+    <script>
+    document.addEventListener('DOMContentLoaded', function () {
+        // Kalkulačka - podpora klávesnice
+        const calcResult = document.getElementById('calc-result');
+        const calcButtons = document.querySelectorAll('.calc-btn');
+        const calcClear = document.getElementById('calc-clear');
+        const calcEquals = document.getElementById('calc-equals');
+
+        let expression = '';
+
+        // Klikací ovládání tlačítek
+        calcButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                expression += this.value;
+                calcResult.value = expression;
+            });
+        });
+
+        // Vymazání displeje při kliknutí na tlačítko "C"
+        calcClear.addEventListener('click', function () {
             expression = '';
             calcResult.value = '';
-        }
+        });
+
+        // Vyhodnocení výrazu při klikání na "="
+        calcEquals.addEventListener('click', function () {
+            try {
+                const result = eval(expression);
+                calcResult.value = result;
+                expression = result.toString();
+            } catch (error) {
+                calcResult.value = 'Error';
+                expression = '';
+            }
+        });
+
+        // Podpora pro klávesnici
+        document.addEventListener('keydown', function (event) {
+            // Povolené znaky: číslice, tečka a základní operátory
+            const allowedKeys = "0123456789.+-*/";
+
+            if (allowedKeys.includes(event.key)) {
+                expression += event.key;
+                calcResult.value = expression;
+            } else if (event.key === "Enter") {
+                try {
+                    const result = eval(expression);
+                    calcResult.value = result;
+                    expression = result.toString();
+                } catch (error) {
+                    calcResult.value = 'Error';
+                    expression = '';
+                }
+                event.preventDefault();
+            } else if (event.key === "Backspace") {
+                expression = expression.slice(0, -1);
+                calcResult.value = expression;
+                event.preventDefault();
+            } else if (event.key === "Escape") {
+                expression = '';
+                calcResult.value = '';
+            }
+        });
     });
-});
-</script>
-
-
-
-
+    </script>
     {% endblock extra_scripts %}
 </body>
 </html>
+
 
