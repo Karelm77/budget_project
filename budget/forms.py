@@ -43,13 +43,13 @@ class TransactionForm(forms.ModelForm):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        # Získáme dotaz, který je již nastaven u pole category
+        #dotaz, který je již nastaven u pole category
         qs = self.fields['category'].queryset
-        # Vytvoříme slovník, kde klíčem je ID kategorie a hodnotou je její typ ('income' nebo 'expense')
+        #  slovník, kde klíčem je ID kategorie a hodnotou je její typ ('income' nebo 'expense')
         category_types = {category.id: category.type for category in qs}
-        # Nastavíme náš vlastní widget
+        # Nastavení vlastní widget
         self.fields['category'].widget = ColoredSelect()
-        # Zkopírujeme choices, aby widget věděl, jaká má být data
+        #choices, aby widget věděl, jaká má být data
         self.fields['category'].widget.choices = self.fields['category'].choices
-        # Předáme widgetu slovník s typy kategorií
+        #widget slovník s typy kategorií
         self.fields['category'].widget.category_types = category_types
