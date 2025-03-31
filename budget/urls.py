@@ -1,6 +1,11 @@
-from django.urls import path
+
+from django.urls import include, path
 from django.contrib.auth import views as auth_views
+from .views import save_note, dashboard, delete_note
+
 from . import views
+
+from .views import save_note
 
 urlpatterns = [
     path('register/', views.register, name='register'),
@@ -14,6 +19,11 @@ urlpatterns = [
     path('transactions/', views.transaction_list, name='transaction_list'),
     path('delete/<int:pk>/', views.delete_transaction, name='delete_transaction'),
     path('kontakt/', views.contact, name='kontakt'),
+    path('save-note/', save_note, name='save_note'),
+    path('', dashboard, name='dashboard'),
+    path('delete-note/<int:pk>/', delete_note, name='delete_note'),
+    path('cookies/', include('cookie_consent.urls')),
+
 
 
 ]

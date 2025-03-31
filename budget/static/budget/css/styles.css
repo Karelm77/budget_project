@@ -1,22 +1,4 @@
-/* Obecný styl pro obsahové bloky transakcí */
-.transaction-container {
-  background-color: #ffffff; /* světlé pozadí pro lepší čitelnost */
-  border-radius: 6px;
-  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
-}
 
-.navbar-custom {
-  background-color: #aef3ba; /* nebo kteroukoliv jinou barvu */
-  min-height: 80px;
-  /* případně další úpravy, např. padding */
-}
-
-/* Styl nadpisu */
-.transaction-title {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-  color: #2c3e50;
-  margin-bottom: 15px;
-}
 
 /* Přizpůsobení responzivity */
 @media (max-width: 576px) {
@@ -30,17 +12,87 @@
         max-width: 100%;
     }
 }
+/* Kalkulačka */
 .calculator-container {
-    width: 100%;
-    max-width: 300px !important;
-    margin: 0;
-    padding: 15px;
+    width: 100% !important;
+    max-width: 250px !important;
+    margin: 0 180px 0 auto !important;
+    padding: 10px !important;
     box-sizing: border-box;
     border: 1px solid #ddd;
     border-radius: 8px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     transition: all 0.3s ease;
 }
+/* Specifický styl pro tlačítko "Odhlásit se" v logout formuláři */
+.logout-form button {
+    background: linear-gradient(90deg, #edbb99, #e59866);
+    border: none;                 /* Odstranění okraje */
+    border-radius: 5px;           /* Zaoblené rohy */
+    padding: 10px 20px;           /* Větší klikací oblast */
+    font-size: 1rem;              /* Dobrá čitelnost */
+    color: #171010;                  /* Tmavý text */
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Jemný stín */
+    transition: background 0.3s ease, transform 0.2s ease, box-shadow 0.3s ease; /* Plynulé přechody */
+}
+
+.logout-form button:hover {
+    background: linear-gradient(90deg, #665151, #8e1313); /* Invertovaný gradient pro hover efekt */
+    transform: translateY(-2px);    /* Mírné posunutí tlačítka vzhůru */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.15); /* Zvýrazněný stín při hoveru */
+}
+
+.logout-form button:active {
+    transform: translateY(0);     /* Obnovení pozice při stisku */
+    box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1); /* Mírně stlačený stín při aktivaci */
+}
+
+.logout-form button:focus {
+    outline: none;                /* Odstranění výchozího focus outline */
+    box-shadow: 0 0 0 2px rgba(229, 152, 102, 0.5); /* Jemné zvýraznění focusu */
+}
+
+.logout-form {
+    background: transparent !important;
+    padding: 0 !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+#note-text {
+    min-height: 250px !important;
+}
+
+/* Přepis barvy pro "Aktuální zůstatek" (bg-success) */
+.card-header.bg-success {
+  background-color: #7e3b06  !important;
+}
+
+/* Přepis barvy pro "Celkové příjmy" (bg-info) */
+.card-header.bg-info {
+  background-color: #7e3b06  !important;
+}
+
+/* Přepis barvy pro "Celkové výdaje" (bg-danger) */
+.card-header.bg-danger {
+  background-color: #7e3b06 !important;
+}
+
+
+
+/* Kompaktnější tlačítka kalkulačky */
+.calculator-buttons .btn {
+    flex: 1 1 50%;  /* Mírně snížené rozpětí */
+    margin: 5px;
+    font-size: 1rem;
+}
+
+/* Vstup pro zobrazení výsledků */
+#calc-result {
+    font-size: 1rem;
+    padding: 3px;
+}
+
 
 #calculatorBtn {
     margin-left: 8px;
@@ -52,11 +104,7 @@
 }
 
 
-.calculator-buttons .btn {
-    flex: 1 1 21%;
-    margin: 5px;
-    font-size: 1.2rem;
-}
+
 
 /* Filtrovací odkazy – jemná změna barvy a podtržení při hoveru */
 .filter-links a {
@@ -73,9 +121,9 @@
 
 /* Souhrn rozpočtu – decentní zvýraznění */
 .summary {
-  background-color: #f1f8ff;
+  background-color: #f7d3ae;
   border-left: 4px solid #007bff;
-  padding: 15px 20px;
+  padding: 3px 5px;
   margin: 15px 0;
   border-radius: 4px;
   font-size: 1rem;
@@ -88,27 +136,10 @@
 /* Tabulka transakcí – vylepšení vzhledu hlavičky a oddělení řádků */
 .transaction-table {
   border-collapse: collapse;
-  background-color: #fff;
+  background-color: #ed1212;
 }
 
-.transaction-table th {
-  background-color: #007bff;
-  color: #fff;
-  font-weight: 600;
-  padding: 10px;
-}
 
-.transaction-table td {
-  background-color: #f9f9f9;
-  color: #333;
-  padding: 10px;
-  border: 1px solid #e1e1e1;
-}
-
-/* Hover efekt u řádků tabulky */
-.transaction-table tbody tr:hover {
-  background-color: #f1f1f1;
-}
 
 /* Styl pro tlačítko Smazat v tabulce */
 .delete-btn {
@@ -151,13 +182,13 @@
 
 /* ===== KONTEJNER ===== */
 .container {
-    margin-top: 50px;
+    margin-top: 60px;
     background: transparent;
 }
 
 /* ===== FORMULÁŘE A TLAČÍTKA ===== */
 form {
-    background-color: #ffffff;
+    background-color: #f0340e;
     padding: 30px;
     border-radius: 8px;
     box-shadow: 0 2px 8px rgba(0,0,0,0.1);
@@ -180,7 +211,7 @@ body {
 }
 
 .transaction-table tbody tr:hover {
-    background-color: #e6f7ff;
+    background-color: #ed1212;
 }
 
 .btn {
@@ -198,19 +229,125 @@ body {
 }
 
 .btn-primary {
-    background-color: #007bff;
-    border-color: #007bff;
+    background-color: #7e3b06 !important;
+    border-color: #7e3b06 !important;
 }
 
 .btn-primary:hover {
-    background-color: #0056b3;
-    border-color: #0056b3;
+    background-color: #7e3b06 !important;
+    border-color: #7e3b06 !important;
 }
 
+
 /* ===== GRAFY ===== */
-#financeChart,
-#otherChart {
-    display: block;
-    max-width: 100%;
-    margin: auto;
+
+
+/* Styl karet pro grafy */
+.card {
+  border: none; /* odstraní výchozí rámečky */
+  border-radius: 20px;
+}
+
+/* Hlavička karty */
+.card-header {
+  font-size: 1.2rem;
+  font-weight: bold;
+  padding: 10px 15px;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+}
+
+/* Tělo karty */
+.card-body {
+  padding: 20px;
+}
+
+/* Vlastní styl pro canvas */
+.chart-canvas {
+  width: 60% !important;
+  height: 300px !important;
+}
+
+/* mírné stínování karet, */
+.shadow-sm {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075)!important;
+}
+
+html, body {
+    height: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background: url("{% static 'budget/img/background.jpg' %}") no-repeat center center fixed !important;
+    background-size: cover;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #343a40;
+    margin-top: 20px;
+}
+
+/* Upraveno pouze pro přihlašovací kartu uvnitř .login-container */
+.login-container .card-header {
+    background-color: #e59866 !important; /* barva pozadí */
+    color: #ffffff !important;
+}
+
+.login-container .btn-primary {
+    background-color: #a74e07 !important;  /* Nová barva pozadí tlačítka */
+    border-color: #a74e07 !important;
+}
+
+.login-container .btn-primary:hover {
+    background-color: #894209 !important;
+    border-color: #894209 !important;
+}
+.login-container .card {
+    background-color: #f6ddcc;   /* Nová barva pozadí karty */
+    border: 1px solid #ccc;      /* Případně trochu zvýraznit rámeček */
+}
+
+/* Zruší zatmavení overlay */
+.header-banner .banner-overlay {
+    background: transparent !important;
+    display: none !important;
+}
+
+/* Pro karty s grafy – záhlaví s třídou bg-primary */
+.card-header.bg-primary {
+  background-color: #7e3b06 !important;  /* Nová barva pozadí pro "Přehled financí" */
+  border-color: #be661f !important;
+  color: #be661f !important;
+}
+
+/* Styl pro záhlaví grafových karet */
+.card-header.bg-primary {
+  background-color: #7e3b06 !important; /* barva pozadí */
+  border-color: #7e3b06 !important;      /* barva okraje */
+  color: #f3eeea !important;             /* Barva textu */
+}
+
+.card-header.bg-secondary {
+  background-color: #7e3b06 !important;
+  border-color: #7e3b06 !important;
+  color: #f3eeea !important;
+}
+
+/* Tlačítko "Přidat transakci" (btn-success) */
+.btn-success {
+  background-color: #7e3b06 !important;
+  border-color: #7e3b06 !important;
+  color: #ffffff !important;
+}
+
+/* Tlačítko "Zobrazit všechny transakce" (btn-info) */
+.btn-info {
+  background-color: #7e3b06 !important;
+  border-color: #7e3b06 !important;
+  color: #ffffff !important;
+
+}
+.chart-canvas.large {
+  width: 800px !important;
+  height: 800px !important;
 }

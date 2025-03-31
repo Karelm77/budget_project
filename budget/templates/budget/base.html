@@ -12,26 +12,27 @@
     <!-- Vlastní styly -->
     <link rel="stylesheet" href="{% static 'budget/css/styles.css' %}">
     <style>
-        /* Aktivně nastavujeme pozadí na bleděmodrou */
+        /* Aktivně nastavujeme pozadí jako obrázek */
         :root {
             --bs-body-bg: #90EE90;
         }
 
         body {
             margin-top: 20px;
-            background-color: #90EE90 !important;  /* Bleděmodrá */
+            background: url("{% static 'budget/images/background8.jpg' %}") no-repeat center fixed !important;
+            background-size: cover;
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             color: #343a40;
         }
 
         .header {
-            margin-bottom: 20px;
+            margin-bottom: 5px;
         }
 
         /* Styl pro banner */
         .header-banner {
             position: relative;
-            height: 200px;
+            height: 370px;
             margin-bottom: 20px;
         }
 
@@ -41,38 +42,24 @@
             object-fit: cover;
         }
 
-        .header-banner .banner-overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.5); /* poloprůhledná černá */
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
 
-        .header-banner .banner-overlay h1 {
-            color: #fff;
-            font-size: 3rem;
-            margin: 0;
-        }
+
+
 
         /* Styl patičky */
         footer {
-            background-color: #f8f9fa;
+            background-color: #232318;
             padding: 15px 0;
             margin-top: 40px;
             font-size: 0.9rem;
-            color: #6c757d;
+            color: #0d0d0a;
         }
 
         /* Přivítací zpráva */
         .welcome-msg {
             text-align: center;
             font-size: 1.5rem;
-            color: #007bff;
+            color: #0d0d0a;
             font-weight: bold;
             margin-bottom: 20px;
         }
@@ -86,7 +73,7 @@
 
         /* Kontejner */
         .container {
-            margin-top: 50px;
+            margin-top:20px;
             background: transparent;
         }
 
@@ -99,13 +86,18 @@
 
         /* Odkazy v hlavičce */
         .header a {
-            color: #007bff;
+            color: #273027;
             text-decoration: none;
+            font-size: 1.2em;  /* Zvětšení písma */
+            font-weight: bold; /* Ztučnění písma */
         }
+
 
         .header a:hover {
             text-decoration: underline;
+            text-decoration-thickness: 5px; /* Nastaví tloušťku podtržení na 2px */
         }
+
 
         /* Styl přihlašovacího formuláře */
         form {
@@ -126,30 +118,27 @@
             margin-top: 5px;
         }
 
-        /* Vylepšení vzhledu tlačítka */
-        .btn-primary {
-            background-color: #007bff;
-            border-color: #007bff;
-        }
 
-        .btn-primary:hover {
-            background-color: #0056b3;
-            border-color: #0056b3;
-        }
 
         /* Přepis dalších stylů Bootstrapu */
+        /* Odstranění přebijícího background-color pokud používáme obrázek */
         html, body {
-            background-color: #e6f7ff !important;
+            /* background-color: #e6f7ff !important; */
         }
     </style>
 </head>
 <body>
+
+</body>
+</html>
+
+<body>
     <div class="container">
         <!-- Banner hlavička s obrázkem -->
         <div class="header-banner">
-            <img src="{% static 'budget/images/banner.jpg' %}" alt="Banner">
+            <img src="{% static 'budget/images/banner10.png' %}" alt="Banner">
             <div class="banner-overlay">
-                <h1>Rodinný rozpočet</h1>
+                <h1></h1>
             </div>
         </div>
 
@@ -157,9 +146,10 @@
         <div class="header d-flex justify-content-between align-items-center">
           <div>
             {% if user.is_authenticated %}
-              <form method="post" action="{% url 'logout' %}" class="d-inline">
+              <form method="post" action="{% url 'logout' %}" class="logout-form d-inline">
                 {% csrf_token %}
-                <button type="submit" class="btn btn-link p-0 align-baseline">Odhlásit se</button>
+                <button type="submit" class="btn btn-primary p-0 align-baseline">Odhlásit se</button>
+
               </form>
             {% else %}
               <div class="d-flex align-items-center">
@@ -178,8 +168,8 @@
             </div>
         {% endif %}
 
-        <!-- Obsah stránky -->
-        {% include "cookie_consent/banner.html" %}
+
+
         {% block content %}
 
 
@@ -206,7 +196,7 @@
     <!-- Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"></script>
 
-    {% block extra_scripts %}
+{% block extra_scripts %}
     <script>
     document.addEventListener('DOMContentLoaded', function () {
         // Inicializace prvního grafu (koláčový graf)
@@ -231,18 +221,25 @@
             });
         }
 
-        // Inicializace druhého grafu (sloupcový graf)
+        // Inicializace druhého grafu (čárový graf)
         var otherCanvas = document.getElementById('otherChart');
         if (otherCanvas) {
             var ctx2 = otherCanvas.getContext('2d');
+            // Načtení dat z JSON vložených pomocí json_script
+            var monthlyLabels = JSON.parse(document.getElementById('monthly-labels').textContent);
+            var monthlyData = JSON.parse(document.getElementById('monthly-data').textContent);
             new Chart(ctx2, {
-                type: 'bar',
+                type: 'line',  // Změna typu grafu na "line"
                 data: {
-                    labels: ['Leden', 'Únor', 'Březen'], // Upravte dle potřeby
+                    labels: monthlyLabels,
                     datasets: [{
-                        label: 'Název datasetu',
-                        data: [10, 20, 30], // Nahraďte reálnými daty
-                        backgroundColor: ['#ff6384', '#36a2eb', '#ffce56']
+                        label: 'Měsíční součet transakcí',
+                        data: monthlyData,       // Reálná data ze serveru
+                        borderColor: '#36a2eb',             // Barva čáry
+                        backgroundColor: 'rgba(54, 162, 235, 0.2)', // Výplň pod čárou
+                        borderWidth: 2,
+                        fill: false,
+                        tension: 0.1      // Jemné zakřivení čáry
                     }]
                 },
                 options: {
@@ -264,16 +261,12 @@
             collapseElement.addEventListener('shown.bs.collapse', function () {
                 toggleLink.innerText = 'Zpět';
             });
-
             collapseElement.addEventListener('hidden.bs.collapse', function () {
                 toggleLink.innerText = 'Čtěte dále...';
             });
         }
-    });
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Kalkulačka - základní ovládání tlačítek
+
+        // Kombinovaná kalkulačka: tlačítka i podpora klávesnice
         const calcResult = document.getElementById('calc-result');
         const calcButtons = document.querySelectorAll('.calc-btn');
         const calcClear = document.getElementById('calc-clear');
@@ -281,7 +274,7 @@
 
         let expression = '';
 
-        // Přidání posluchače pro každé tlačítko s čísly nebo operátory
+        // Přidání posluchačů pro tlačítka kalkulačky
         calcButtons.forEach(button => {
             button.addEventListener('click', function () {
                 expression += this.value;
@@ -295,44 +288,7 @@
             calcResult.value = '';
         });
 
-        // Vyhodnocení výrazu
-        calcEquals.addEventListener('click', function () {
-            try {
-                const result = eval(expression);
-                calcResult.value = result;
-                expression = result.toString();
-            } catch (error) {
-                calcResult.value = 'Error';
-                expression = '';
-            }
-        });
-    });
-    </script>
-    <script>
-    document.addEventListener('DOMContentLoaded', function () {
-        // Kalkulačka - podpora klávesnice
-        const calcResult = document.getElementById('calc-result');
-        const calcButtons = document.querySelectorAll('.calc-btn');
-        const calcClear = document.getElementById('calc-clear');
-        const calcEquals = document.getElementById('calc-equals');
-
-        let expression = '';
-
-        // Klikací ovládání tlačítek
-        calcButtons.forEach(button => {
-            button.addEventListener('click', function () {
-                expression += this.value;
-                calcResult.value = expression;
-            });
-        });
-
-        // Vymazání displeje při kliknutí na tlačítko "C"
-        calcClear.addEventListener('click', function () {
-            expression = '';
-            calcResult.value = '';
-        });
-
-        // Vyhodnocení výrazu při klikání na "="
+        // Vyhodnocení výrazu při kliknutí na "=" tlačítko
         calcEquals.addEventListener('click', function () {
             try {
                 const result = eval(expression);
@@ -344,11 +300,9 @@
             }
         });
 
-        // Podpora pro klávesnici
+        // Podpora ovládání kalkulačky přes klávesnici
         document.addEventListener('keydown', function (event) {
-            // Povolené znaky: číslice, tečka a základní operátory
             const allowedKeys = "0123456789.+-*/";
-
             if (allowedKeys.includes(event.key)) {
                 expression += event.key;
                 calcResult.value = expression;
@@ -373,8 +327,11 @@
         });
     });
     </script>
-    {% endblock extra_scripts %}
+{% endblock extra_scripts %}
+{% block cookie_notice %}{% endblock cookie_notice %}
+
 </body>
 </html>
+
 
 

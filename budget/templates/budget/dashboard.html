@@ -2,53 +2,93 @@
 {% load static %}
 
 {% block content %}
-<h2>Přehled rozpočtu</h2>
-<p><strong>Aktuální zůstatek:</strong> {{ balance }} Kč</p>
-<p><strong>Celkové příjmy:</strong> {{ total_income }} Kč</p>
-<p><strong>Celkové výdaje:</strong> {{ total_expense }} Kč</p>
+<div class="container my-4">
+  <h2 class="text-center mb-4">Přehled rozpočtu</h2>
 
-<!-- Místo pro grafy -->
-<div class="row">
-  <!-- První graf: Přehled financí (koláčový graf) -->
-  <div class="col-md-6">
-    <div class="card mb-3">
-      <div class="card-header">Přehled financí</div>
-      <div class="card-body text-center">
-        <canvas id="financeChart" width="200" height="200"></canvas>
-      </div>
-    </div>
-  </div>
-
-  <!-- Druhý graf: Sloupcový graf srovnání měsíčních financí -->
-  <div class="col-md-6">
-    <div class="card mb-3">
-      <div class="card-header">Srovnání měsíčních financí</div>
-      <div class="card-body text-center">
-        <canvas id="otherChart" width="200" height="200"></canvas>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Akční tlačítka: Přidat transakci, Zobrazit všechny transakce a Kalkulačka -->
-<div class="my-3 d-flex align-items-center">
-  <a href="{% url 'add_transaction' %}" class="btn btn-success me-2">Přidat transakci</a>
-  <div class="btn-group">
-    <a href="{% url 'transaction_list' %}" class="btn btn-info">Zobrazit všechny transakce</a>
-    <button id="calculatorBtn" class="btn btn-primary" type="button"
-            data-bs-toggle="collapse" data-bs-target="#calculator"
-            aria-expanded="false" aria-controls="calculator">
-      Kalkulačka
-    </button>
-  </div>
-</div>
-
-<!--kalkulačka -->
-<div class="collapse mt-3" id="calculator">
-  <div class="row justify-content-start">
-    <div class="col-md-6">
-      <div class="card shadow-lg p-3 mb-5 bg-light rounded">
+  <!-- Přehled v podobě tří karet -->
+  <div class="row">
+    <!-- Aktuální zůstatek -->
+    <div class="col-md-4 mb-3">
+      <div class="card text-center border-success shadow">
+        <div class="card-header bg-success text-white">
+          Aktuální zůstatek
+        </div>
         <div class="card-body">
+          <h3 class="card-title">{{ balance }} Kč</h3>
+        </div>
+      </div>
+    </div>
+    <!-- Celkové příjmy -->
+    <div class="col-md-4 mb-3">
+      <div class="card text-center border-info shadow">
+        <div class="card-header bg-info text-white">
+          Celkové příjmy
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{ total_income }} Kč</h3>
+        </div>
+      </div>
+    </div>
+    <!-- Celkové výdaje -->
+    <div class="col-md-4 mb-3">
+      <div class="card text-center border-danger shadow">
+        <div class="card-header bg-danger text-white">
+          Celkové výdaje
+        </div>
+        <div class="card-body">
+          <h3 class="card-title">{{ total_expense }} Kč</h3>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<!-- Grafy -->
+<div class="row">
+  <!-- Koláčový graf: Přehled financí -->
+  <div class="col-md-6 mb-3">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white">
+        Přehled financí
+      </div>
+      <div class="card-body">
+        <canvas id="financeChart" class="chart-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sloupcový graf: Srovnání měsíčních financí -->
+  <div class="col-md-6 mb-3">
+    <div class="card shadow-sm">
+      <div class="card-header bg-secondary text-white">
+        Srovnání měsíčních financí
+      </div>
+      <div class="card-body">
+        <canvas id="otherChart" class="chart-canvas"></canvas>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+  <!-- Akční tlačítka -->
+  <div class="my-3 d-flex align-items-center">
+    <a href="{% url 'add_transaction' %}" class="btn btn-success me-2">Přidat transakci</a>
+    <div class="btn-group">
+      <a href="{% url 'transaction_list' %}" class="btn btn-info">Zobrazit všechny transakce</a>
+      <button id="calculatorBtn" class="btn btn-primary" type="button"
+              data-bs-toggle="collapse" data-bs-target="#calculator"
+              aria-expanded="false" aria-controls="calculator">
+        Kalkulačka/Poznámky
+      </button>
+    </div>
+  </div>
+
+  <!-- Kalkulačka a poznámky -->
+  <div class="collapse mt-3" id="calculator">
+    <div class="row">
+      <!-- Levý sloupec: Kalkulačka -->
+      <div class="col-md-6">
+        <div class="card shadow-lg p-3 mb-5 bg-light rounded calculator-container">
           <!-- Displej kalkulačky -->
           <div id="calc-display" class="mb-3">
             <input type="text" id="calc-result" class="form-control text-end fs-3" placeholder="0" readonly style="height: 60px;">
@@ -56,6 +96,7 @@
           <!-- Tlačítka kalkulačky -->
           <div class="calculator-buttons">
             <div class="row g-2">
+              <!-- Řádek 1 -->
               <div class="col-3">
                 <button class="btn btn-outline-secondary calc-btn w-100 py-3" value="7">7</button>
               </div>
@@ -68,7 +109,7 @@
               <div class="col-3">
                 <button class="btn btn-warning calc-btn w-100 py-3" value="/">÷</button>
               </div>
-
+              <!-- Řádek 2 -->
               <div class="col-3">
                 <button class="btn btn-outline-secondary calc-btn w-100 py-3" value="4">4</button>
               </div>
@@ -81,7 +122,7 @@
               <div class="col-3">
                 <button class="btn btn-warning calc-btn w-100 py-3" value="*">×</button>
               </div>
-
+              <!-- Řádek 3 -->
               <div class="col-3">
                 <button class="btn btn-outline-secondary calc-btn w-100 py-3" value="1">1</button>
               </div>
@@ -94,7 +135,7 @@
               <div class="col-3">
                 <button class="btn btn-warning calc-btn w-100 py-3" value="-">−</button>
               </div>
-
+              <!-- Řádek 4 -->
               <div class="col-3">
                 <button class="btn btn-outline-secondary calc-btn w-100 py-3" value="0">0</button>
               </div>
@@ -107,7 +148,7 @@
               <div class="col-3">
                 <button class="btn btn-warning calc-btn w-100 py-3" value="+">+</button>
               </div>
-
+              <!-- Řádek 5 -->
               <div class="col-12 mt-2">
                 <button class="btn btn-success w-100 py-3" id="calc-equals">=</button>
               </div>
@@ -115,36 +156,71 @@
           </div>
         </div>
       </div>
+
+      <!-- Pravý sloupec: Poznámky -->
+      <div class="col-md-6">
+        <div class="card shadow-lg p-3 mb-5 bg-light rounded">
+          <div class="card-body">
+            <h5>Poznámky</h5>
+            <textarea id="note-text" class="form-control" placeholder="Zde vložte vaše poznámky..." rows="13"></textarea>
+            <button id="save-note" class="btn btn-primary mt-2">Uložit poznámku</button>
+          </div>
+        </div>
+      </div>
     </div>
+  </div>
+
+  <!-- Poslední transakce -->
+  <h3>Poslední transakce</h3>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>Datum</th>
+        <th>Kategorie</th>
+        <th>Částka</th>
+        <th>Poznámka</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for t in transactions %}
+      <tr>
+        <td>{{ t.date }}</td>
+        <td>{{ t.category.name }}</td>
+        <td>{{ t.amount }} Kč</td>
+        <td>{{ t.note }}</td>
+      </tr>
+      {% empty %}
+      <tr>
+        <td colspan="4">Žádné transakce</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+  <!-- Sekce pro zobrazení uložených poznámek -->
+  <div class="notes-list mt-4">
+    <h3>Uložené poznámky</h3>
+    {% if saved_notes %}
+      <ul class="list-group">
+        {% for note in saved_notes %}
+          <li class="list-group-item d-flex justify-content-between align-items-center">
+            <div>
+              <strong>{{ note.created_at|date:"d.m.Y H:i" }}</strong>: {{ note.content }}
+            </div>
+            <form method="post" action="{% url 'delete_note' note.pk %}" onsubmit="return confirm('Opravdu chcete poznámku smazat?');">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-sm btn-outline-danger">Smazat</button>
+            </form>
+          </li>
+        {% endfor %}
+      </ul>
+    {% else %}
+      <p>Zatím nebyla žádná poznámka uložena.</p>
+    {% endif %}
   </div>
 </div>
 
-<h3>Poslední transakce</h3>
-<table class="table table-striped">
-  <thead>
-    <tr>
-      <th>Datum</th>
-      <th>Kategorie</th>
-      <th>Částka</th>
-      <th>Poznámka</th>
-    </tr>
-  </thead>
-  <tbody>
-    {% for t in transactions %}
-    <tr>
-      <td>{{ t.date }}</td>
-      <td>{{ t.category.name }}</td>
-      <td>{{ t.amount }} Kč</td>
-      <td>{{ t.note }}</td>
-    </tr>
-    {% empty %}
-    <tr>
-      <td colspan="4">Žádné transakce</td>
-    </tr>
-    {% endfor %}
-  </tbody>
-</table>
-{% endblock content %}
+{% endblock %}
 
 {% block extra_scripts %}
   {{ block.super }}
@@ -154,58 +230,6 @@
   {{ monthly_data|json_script:"monthly-data" }}
 
 
-  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-  <!-- Inicializace grafů -->
-  <script>
-    document.addEventListener('DOMContentLoaded', function () {
-      // Koláčový graf: Přehled financí
-      var financeCanvas = document.getElementById('financeChart');
-      if (financeCanvas) {
-        var financeCtx = financeCanvas.getContext('2d');
-        new Chart(financeCtx, {
-          type: 'pie',
-          data: {
-            labels: ['Příjmy', 'Výdaje'],
-            datasets: [{
-              data: [{{ total_income }}, {{ total_expense }}],
-              backgroundColor: ['#28a745', '#dc3545']
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { legend: { position: 'bottom' } }
-          }
-        });
-      }
-
-      // Sloupcový graf: Srovnání měsíčních financí
-      var otherCanvas = document.getElementById('otherChart');
-      if (otherCanvas) {
-        var otherCtx = otherCanvas.getContext('2d');
-        var monthlyLabels = JSON.parse(document.getElementById('monthly-labels').textContent);
-        var monthlyData = JSON.parse(document.getElementById('monthly-data').textContent);
-        new Chart(otherCtx, {
-          type: 'bar',
-          data: {
-            labels: monthlyLabels,
-            datasets: [{
-              label: 'Celkové transakce',
-              data: monthlyData,
-              backgroundColor: 'rgba(54, 162, 235, 0.5)',
-              borderColor: 'rgba(54, 162, 235, 1)',
-              borderWidth: 1
-            }]
-          },
-          options: {
-            responsive: true,
-            plugins: { legend: { position: 'bottom' } },
-            scales: { y: { beginAtZero: true } }
-          }
-        });
-      }
-    });
-  </script>
 
   <!-- Styl pro kalkulačku – Animace stisku tlačítek -->
   <style>
@@ -215,9 +239,17 @@
     }
   </style>
 
-  <!-- Funkcionalita kalkulačky -->
+  <!-- Funkcionalita kalkulačky a globální keydown listener -->
   <script>
     document.addEventListener('DOMContentLoaded', function () {
+      // Listener na poznámkové pole, aby nedocházelo k propagaci klávesových událostí
+      var noteInput = document.getElementById('note-text');
+      if (noteInput) {
+        noteInput.addEventListener('keydown', function(e) {
+          e.stopPropagation();
+        });
+      }
+
       const calcResult = document.getElementById('calc-result');
       const calcButtons = document.querySelectorAll('.calc-btn');
       const calcClear = document.getElementById('calc-clear');
@@ -228,7 +260,6 @@
         calcResult.value = expression || "0";
       }
 
-      // Akce pro tlačítka kalkulačky
       calcButtons.forEach(btn => {
         btn.addEventListener('click', function () {
           this.classList.add('active-btn');
@@ -238,13 +269,11 @@
         });
       });
 
-      // Clear tlačítko
       calcClear.addEventListener('click', function () {
         expression = '';
         updateDisplay();
       });
 
-      // Vyhodnocení výrazu
       calcEquals.addEventListener('click', function () {
         try {
           const result = eval(expression);
@@ -256,7 +285,6 @@
         }
       });
 
-      // Podpora klávesnice
       document.addEventListener('keydown', function (event) {
         const allowedKeys = "0123456789.+-*/";
         if (allowedKeys.includes(event.key)) {
@@ -283,7 +311,58 @@
       });
     });
   </script>
-{% endblock extra_scripts %}
+
+  <!-- Bod 2: Ukládání poznámky pomocí AJAXu -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      const saveNoteButton = document.getElementById('save-note');
+      if (saveNoteButton) {
+        saveNoteButton.addEventListener('click', function(){
+          const noteContent = document.getElementById('note-text').value;
+          fetch('/save-note/', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+              'X-CSRFToken': getCookie('csrftoken')
+            },
+            body: JSON.stringify({ note: noteContent })
+          })
+          .then(response => response.json())
+          .then(data => {
+            if (data.success) {
+              alert('Poznámka byla úspěšně uložena!');
+              document.getElementById('note-text').value = "";
+            } else {
+              alert('Nastala chyba při ukládání poznámky.');
+            }
+          })
+          .catch(error => {
+            console.error('Chyba při ukládání poznámky:', error);
+          });
+        });
+      }
+
+      function getCookie(name) {
+        let cookieValue = null;
+        if (document.cookie && document.cookie !== "") {
+          const cookies = document.cookie.split(";");
+          for (let i = 0; i < cookies.length; i++) {
+            const cookie = cookies[i].trim();
+            if (cookie.substring(0, name.length + 1) === (name + "=")) {
+              cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+              break;
+            }
+          }
+        }
+        return cookieValue;
+      }
+    });
+  </script>
+{% endblock %}
+
+
+
+
 
 
 

@@ -1,15 +1,8 @@
-
-
-
-
 import os
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
-
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'django-insecure-%wlu+8ik+tfg^3tq-7)^q^vk-@gxr7zy@w8-^7xn$zkht!o9c4'
@@ -113,6 +106,10 @@ STATIC_URL = '/static/'
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
+
+# Nastavení vlastní šablony pro cookie consent banner
+COOKIE_CONSENT_TEMPLATE = "cookie_consent/banner.html"
