@@ -186,10 +186,13 @@
     </div>
 
     <!-- Patička -->
+    {% block footer %}
     <footer class="container text-center">
         <hr>
         <p>&copy; {% now "Y" %} Rodinný rozpočet. Všechna práva vyhrazena.</p>
+        <a href="{% url 'privacy_policy' %}" class="ms-2">Zásady ochrany osobních údajů</a>
     </footer>
+    {% endblock footer %}
 
     <!-- Bootstrap JS Bundle -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"></script>

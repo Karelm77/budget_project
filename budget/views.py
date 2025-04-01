@@ -12,6 +12,7 @@ import json
 from django.http import JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 
+
 @login_required
 def delete_note(request, pk):
     note = get_object_or_404(Note, pk=pk)
@@ -135,3 +136,6 @@ def transaction_list(request):
         'period': period,
     }
     return render(request, 'budget/transaction_list.html', context)
+
+def privacy_policy(request):
+    return render(request, 'budget/privacy_policy.html')

@@ -1,7 +1,8 @@
 
 from django.urls import include, path
 from django.contrib.auth import views as auth_views
-from .views import save_note, dashboard, delete_note
+from .views import save_note, dashboard, delete_note, privacy_policy
+
 
 from . import views
 
@@ -22,6 +23,7 @@ urlpatterns = [
     path('save-note/', save_note, name='save_note'),
     path('', dashboard, name='dashboard'),
     path('delete-note/<int:pk>/', delete_note, name='delete_note'),
+    path('privacy/', privacy_policy, name='privacy_policy'),
     path('cookies/', include('cookie_consent.urls')),
 
 
