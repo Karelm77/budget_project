@@ -22,7 +22,7 @@ urlpatterns = [
     path('save-note/', save_note, name='save_note'),
     path('', dashboard, name='dashboard'),
     path('delete-note/<int:pk>/', delete_note, name='delete_note'),
-    path('cookies/', include('cookie_consent.urls')),
+
 
 
 
