@@ -111,5 +111,4 @@ LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
 LOGOUT_REDIRECT_URL = '/login/'
 
-# Nastavení vlastní šablony pro cookie consent banner
-COOKIE_CONSENT_TEMPLATE = "cookie_consent/banner.html"
+

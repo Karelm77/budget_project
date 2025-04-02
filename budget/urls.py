@@ -24,7 +24,7 @@ urlpatterns = [
     path('', dashboard, name='dashboard'),
     path('delete-note/<int:pk>/', delete_note, name='delete_note'),
     path('privacy/', privacy_policy, name='privacy_policy'),
-    path('cookies/', include('cookie_consent.urls')),
+
 
 
 
